@@ -7,110 +7,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Webduino Blockly App</title>
   <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://blocklypro.webduino.io/components/jquery/dist/jquery.min.js"></script>
   <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js"></script>
   <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js"></script>
   <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js"></script>
   <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js"></script>
-<style media="screen">
-.a1{
-  text-align: center;
-  width: 100%;
-  display: inline-block;
-  background-color: grey;
-  color:white;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-</style>
-    <script type="text/javascript">
-      var rgbled;
-      var temp = 0;
-      var flag = 0;
-      var temp2 = 0;
-      function colour_random() {
-        var num = Math.floor(Math.random() * Math.pow(2, 24));
-        return '#' + ('00000' + num.toString(16)).substr(-6);
-      }
+  <style media="screen">
+    .btn-large {
+      width: 100%;
+    }
+  </style>
+  <script type="text/javascript">
+    var rgbled;
+    var temp = 0;
+    var mainTemp = 0;
+    var flag = 0;
+    var temp2 = 0;
+    var _red = '#ff0000';
+    var _green = '#00ff00';
+    var _blue = '#0000ff';
+    var _yellow = '#ffff00';
+    var _black = '#000000';
+    var mainTimer = 8000; //ms
+    var myInterval, myInterval2,mainInterval;
+    var buzzer;
 
-        temp = 0;
-        var myInterval,myInterval2;
-      function blinkblink() {
-        myInterval = setInterval(myTimer, 500);
-      }
-      function blinkblink2() {
-        myInterval2 = setInterval(myTimer2, 500);
-      }
-      function myTimer(){
+    boardReady({
+      device: 'waOZ'
+    }, function(board) {
+      board.samplingInterval = 20;
+      rgbled = getRGBLed(board, 11, 10, 6);
+      rgbled2 = getRGBLed(board, 7, 8, 9);
+      rgbled2.setColor(_red);
+      rgbled.setColor(_green);
+
+      ///////////////////
+
+      buzzer = getBuzzer(board, 11);
+      setBuzzer(buzzer);
+    });
+
+    function blinkblink() {
+      myInterval = setInterval(function () {
         temp = temp + 1;
         if (temp % 2 == 0) {
-          rgbled.setColor('#ff0000');
+          rgbled.setColor(_red);
         } else {
-          rgbled.setColor('#001dff');
+          rgbled.setColor(_blue);
         }
-      }
-      function myTimer2(){
-        temp2 = temp2 + 1;
-        if (temp2 % 2 == 0) {
-          rgbled2.setColor('#ff0000');
-        } else {
-          rgbled2.setColor('#001dff');
-        }
-      }
-      function changefromgreentored() {
-        setTimeout(function() {
-          rgbled.setColor('#ffff00');
-          setTimeout(function() {
-            rgbled.setColor('#ff0000');
-          }, 1000);
-        }, 1000);
-      }
+      }, 500);
+    }
 
-      function changefromgreentored2() {
-        setTimeout(function() {
-          rgbled2.setColor('#ffff00');
-          setTimeout(function() {
-            rgbled2.setColor('#ff0000');
-          }, 1000);
-        }, 1000);
-      }
-
-      function delete1(){
-        clearInterval(myInterval);
-
-      }
-      function delete2(){
-        clearInterval(myInterval2);
-
-      }
-      boardReady({
-        device: 'waOZ'
-      }, function(board) {
-        board.samplingInterval = 20;
-          rgbled = getRGBLed(board, 11, 10, 6);
-          rgbled2 = getRGBLed(board, 7, 8, 9);
-          rgbled2.setColor('#ff0000');
-
-          rgbled.setColor('#00ff00');
-
-///////////////////
-
-buzzer = getBuzzer(board, 11);
-document.getElementById('demo-area-05-btn1').addEventListener('click',function () {
-  buzzer.play(buzzer_music([{ notes : ["C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5"] , tempos : ["4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4"] }]).notes ,buzzer_music([{ notes : ["C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5","C6","D5"] , tempos : ["4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4","4"] }]).tempos );
-});
+    function blinkblink2() {
+      myInterval2 = setInterval(function () {
+            temp2 = temp2 + 1;
+            if (temp2 % 2 == 0) {
+              rgbled2.setColor(_red);
+            } else {
+              rgbled2.setColor(_blue);
+            }
+          }, 500);
+    }
 
 
 
+
+
+    function changefromgreentored() {
+      rgbled.setColor(_yellow);
+      setTimeout(function() {
+        rgbled.setColor(_red);
+      }, 2000);
+    }
+
+    function changefromgreentored2() {
+      rgbled2.setColor(_yellow);
+      setTimeout(function() {
+        rgbled2.setColor(_red);
+      }, 2000);
+    }
+
+    function delete1() {
+      clearInterval(myInterval);
+      delete2();
+    }
+
+    function delete2() {
+      clearInterval(myInterval2);
+      delete1();
+    }
+
+    function deleteAll(){
+      clearInterval(myInterval);
+      clearInterval(myInterval2);
+      clearInterval(mainInterval)
+    }
+
+    function setBuzzer(buzzer) {
+      document.getElementById('demo-area-05-btn1').addEventListener('click', function() {
+        buzzer.play(buzzer_music([{
+          notes: ["C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5"],
+          tempos: ["4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4"]
+        }]).notes, buzzer_music([{
+          notes: ["C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5", "C6", "D5"],
+          tempos: ["4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4", "4"]
+        }]).tempos);
       });
+    }
 
-      var buzzer;
-
-      function buzzer_music(m) {
+    function buzzer_music(m) {
       var musicNotes = {};
       musicNotes.notes = [];
       musicNotes.tempos = [];
@@ -134,153 +143,154 @@ document.getElementById('demo-area-05-btn1').addEventListener('click',function (
         musicNotes.tempos = [m[0].tempos];
       }
       return musicNotes;
-      }
+    }
+
+    function green() {
+      rgbled.setColor(_green);
+      rgbled2.setColor(_red);
+    }
+
+    function red() {
+      rgbled.setColor(_red);
+      rgbled2.setColor(_green);
+    }
+
+    function yellow() {
+      rgbled.setColor(_yellow);
+    }
+
+    function green2() {
+      rgbled2.setColor(_green);
+      rgbled.setColor(_red);
+    }
+
+    function red2() {
+      rgbled.setColor(_green);
+      rgbled2.setColor(_red);
+    }
+
+    function yellow2() {
+      rgbled2.setColor(_yellow);
+    }
+
+    function setalldark() {
+      rgbled.setColor(_black);
+      rgbled2.setColor(_black);
+    }
+
+
+    function mainLight(){
+      mainInterval = setInterval(  function (){
+          mainTemp++;
+          if(mainTemp % 2 == 0){
+            green();
+          }
+          else if( 1 == mainTemp%2){
+            red();
+          }
+        },5000);
+    }
 
 
 
 
 
-
-
-
-
-
-
-
-
-      function green() {
-        rgbled.setColor('#00ff00');
-        rgbled2.setColor('#ff0000');
-
-      }
-      function red() {
-        rgbled.setColor('#ff0000');
-        rgbled2.setColor('#00ff00');
-
-      }
-      function yellow() {
-        rgbled.setColor('#ffff00');
-      }
-      function green2() {
-        rgbled2.setColor('#00ff00');
-        rgbled.setColor('#ff0000');
-
-      }
-      function red2() {
-        rgbled.setColor('#00ff00');
-
-        rgbled2.setColor('#ff0000');
-      }
-      function yellow2() {
-        rgbled2.setColor('#ffff00');
-      }
-
-      function setalldark(){
-        rgbled.setColor("#000000");
-        rgbled2.setColor('#000000');
-
-      }
-
-
-    </script>
-
-
+  </script>
 
 </head>
 
 <body>
 
-
-<br>
-
+  <br>
 
   <div class="container" style="">
-    <div class="card" >
-<h4 style="text-align:center;">road 1</h5>
-    <div class="row">
-      <div class="col s6">
-      <a class="a1" name="button1" onclick="javascript:delete1()">delete1</a>
-      </div>
-    </div>
+    <div class="card">
+      <h4 style="text-align:center;">road 1</h5>
+        <div class="row">
+          <div class="col s6">
+            <a class="waves-effect waves-light btn-large" name="button1" onclick="javascript:delete1()">delete1</a>
+          </div>
+        </div>
 
     <div class="row">
-      <div class="col s6">
-        <a class="a1" name="button1" onclick="javascript:blinkblink()">blinkblink</a>
+    <div class="col s6">
+    <a class="waves-effect waves-light btn-large" name="button1" onclick="javascript:blinkblink()">blinkblink</a>
 
-      </div>
-      <div class="col s6">
-        <a class="a1" name="button2" onclick="javascript:changefromgreentored()">greentored</a>
+    </div>
+    <div class="col s6">
+    <a class="waves-effect waves-light btn-large" name="button2" onclick="javascript:changefromgreentored()">greentored</a>
 
-      </div>
+    </div>
     </div>
     <div class="row">
-      <div class="col s4">
+    <div class="col s4">
 
-      <a class="a1" name="button3" onclick="javascript:green()">green</a>
-    </div>
-
-      <div class="col s4">
-
-      <a class="a1" name="button3" onclick="javascript:red()">red</a>
+    <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:green()">green</a>
     </div>
 
     <div class="col s4">
 
-      <a class="a1" name="button3" onclick="javascript:yellow()">yellow</a>
+    <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:red()">red</a>
+    </div>
+
+    <div class="col s4">
+
+    <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:yellow()">yellow</a>
     </div>
 
     </div>
     <br>
-  </div>
+    </div>
 
 
-  <div class="card">
+    <div class="card">
     <h4 style="text-align:center;">road 2</h5>
 
     <div class="row">
-      <div class="col s6">
-      <a class="a1" name="button1" onclick="javascript:delete2()">delete2</a>
-      </div>
+    <div class="col s6">
+    <a class="waves-effect waves-light btn-large" name="button1" onclick="javascript:delete2()">delete2</a>
+    </div>
     </div>
 
     <div class="row">
-      <div class="col s6">
-        <a class="a1" name="button1" onclick="javascript:blinkblink2()">blinkblink</a>
+    <div class="col s6">
+    <a class="waves-effect waves-light btn-large" name="button1" onclick="javascript:blinkblink2()">blinkblink</a>
 
-      </div>
-      <div class="col s6">
-        <a class="a1" name="button2" onclick="javascript:changefromgreentored2()">greentored</a>
+    </div>
+    <div class="col s6">
+    <a class="waves-effect waves-light btn-large" name="button2" onclick="javascript:changefromgreentored2()">greentored</a>
 
-      </div>
+    </div>
     </div>
     <div class="row">
-      <div class="col s4">
-
-      <a class="a1" name="button3" onclick="javascript:green2()">green</a>
-    </div>
-
-      <div class="col s4">
-
-      <a class="a1" name="button3" onclick="javascript:red2()">red</a>
+    <div class="col s4">
+    <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:green2()">green</a>
     </div>
 
     <div class="col s4">
-
-      <a class="a1" name="button3" onclick="javascript:yellow2()">yellow</a>
+    <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:red2()">red</a>
     </div>
+
+    <div class="col s4">
+    <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:yellow2()">yellow</a>
+    </div>
+    </div>
+    <br>
+    </div>
+
+    <button id="demo-area-05-btn1"class="db5 btn">歐伊歐伊</button>
+      <button type="button" class="btn" name="button" onclick="javascript:setalldark()">dark</button>
+
+      <div class="card">
+        <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:mainLight()">mainLight</a>
+        <a class="waves-effect waves-light btn-large" name="button3" onclick="javascript:deleteAll()">deleteAll</a>
+
+      </div>
+
+
   </div>
-  <br>
-</div>
-<div><button id="demo-area-05-btn1" class="db5 btn">歐伊歐伊</button>
-<button type="button" class="btn" name="button" onclick="javascript:setalldark()">dark</button>
+
+
 </body>
 <br><br>
 </html>
-<script type="text/javascript">
-
-
-
-
-
-
-</script>
