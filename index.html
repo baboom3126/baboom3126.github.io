@@ -150,22 +150,39 @@ document.getElementById('demo-area-05-btn1').addEventListener('click',function (
 
       function green() {
         rgbled.setColor('#00ff00');
+        rgbled2.setColor('#ff0000');
+
       }
       function red() {
         rgbled.setColor('#ff0000');
+        rgbled2.setColor('#00ff00');
+
       }
       function yellow() {
         rgbled.setColor('#ffff00');
       }
       function green2() {
         rgbled2.setColor('#00ff00');
+        rgbled.setColor('#ff0000');
+
       }
       function red2() {
+        rgbled.setColor('#00ff00');
+
         rgbled2.setColor('#ff0000');
       }
       function yellow2() {
         rgbled2.setColor('#ffff00');
-      }    </script>
+      }
+
+      function setalldark(){
+        rgbled.setColor("#000000");
+        rgbled2.setColor('#000000');
+
+      }
+
+
+    </script>
 
 
 
@@ -254,10 +271,10 @@ document.getElementById('demo-area-05-btn1').addEventListener('click',function (
   </div>
   <br>
 </div>
-<div><button id="demo-area-05-btn1" class="db5">按鈕 1</button>
-
+<div><button id="demo-area-05-btn1" class="db5 btn">歐伊歐伊</button>
+<button type="button" class="btn" name="button" onclick="javascript:setalldark()">dark</button>
 </body>
-
+<br><br>
 </html>
 <script type="text/javascript">
 
