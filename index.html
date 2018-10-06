@@ -1,0 +1,212 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Webduino Blockly App</title>
+  <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://blocklypro.webduino.io/components/jquery/dist/jquery.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/webduino-all-0.4.20.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/webduino-blockly.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/firebase.min.js"></script>
+  <script src="https://blocklypro.webduino.io/dist/lib/runtime.min.js"></script>
+<style media="screen">
+.a1{
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  background-color: grey;
+  color:white;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+</style>
+    <script type="text/javascript">
+      var rgbled;
+      var temp = 0;
+      var flag = 0;
+      var temp2 = 0;
+      function colour_random() {
+        var num = Math.floor(Math.random() * Math.pow(2, 24));
+        return '#' + ('00000' + num.toString(16)).substr(-6);
+      }
+
+        temp = 0;
+        var myInterval,myInterval2;
+      function blinkblink() {
+        myInterval = setInterval(myTimer, 500);
+      }
+      function blinkblink2() {
+        myInterval2 = setInterval(myTimer2, 500);
+      }
+      function myTimer(){
+        temp = temp + 1;
+        if (temp % 2 == 0) {
+          rgbled.setColor('#ff0000');
+        } else {
+          rgbled.setColor('#001dff');
+        }
+      }
+      function myTimer2(){
+        temp2 = temp2 + 1;
+        if (temp2 % 2 == 0) {
+          rgbled2.setColor('#ff0000');
+        } else {
+          rgbled2.setColor('#001dff');
+        }
+      }
+      function changefromgreentored() {
+        setTimeout(function() {
+          rgbled.setColor('#ffff00');
+          setTimeout(function() {
+            rgbled.setColor('#ff0000');
+          }, 1000);
+        }, 1000);
+      }
+
+      function changefromgreentored2() {
+        setTimeout(function() {
+          rgbled2.setColor('#ffff00');
+          setTimeout(function() {
+            rgbled2.setColor('#ff0000');
+          }, 1000);
+        }, 1000);
+      }
+
+      function delete1(){
+        clearInterval(myInterval);
+
+      }
+      function delete2(){
+        clearInterval(myInterval2);
+
+      }
+      boardReady({
+        device: 'waOZ'
+      }, function(board) {
+        board.samplingInterval = 20;
+          rgbled = getRGBLed(board, 11, 10, 6);
+          rgbled2 = getRGBLed(board, 7, 8, 9);
+          rgbled2.setColor('#ff0000');
+
+          rgbled.setColor('#00ff00');
+
+
+      });
+
+      function green() {
+        rgbled.setColor('#00ff00');
+      }
+      function red() {
+        rgbled.setColor('#ff0000');
+      }
+      function yellow() {
+        rgbled.setColor('#ffff00');
+      }
+      function green2() {
+        rgbled2.setColor('#00ff00');
+      }
+      function red2() {
+        rgbled2.setColor('#ff0000');
+      }
+      function yellow2() {
+        rgbled2.setColor('#ffff00');
+      }    </script>
+
+
+
+</head>
+
+<body>
+
+
+<br>
+
+
+  <div class="container" style="">
+    <div class="card" >
+<h4 style="text-align:center;">road 1</h5>
+    <div class="row">
+      <div class="col s6">
+      <a class="a1" name="button1" onclick="javascript:delete1()">delete1</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s6">
+        <a class="a1" name="button1" onclick="javascript:blinkblink()">blinkblink</a>
+
+      </div>
+      <div class="col s6">
+        <a class="a1" name="button2" onclick="javascript:changefromgreentored()">greentored</a>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4">
+
+      <a class="a1" name="button3" onclick="javascript:green()">green</a>
+    </div>
+
+      <div class="col s4">
+
+      <a class="a1" name="button3" onclick="javascript:red()">red</a>
+    </div>
+
+    <div class="col s4">
+
+      <a class="a1" name="button3" onclick="javascript:yellow()">yellow</a>
+    </div>
+
+    </div>
+    <br>
+  </div>
+
+
+  <div class="card">
+    <h4 style="text-align:center;">road 2</h5>
+
+    <div class="row">
+      <div class="col s6">
+      <a class="a1" name="button1" onclick="javascript:delete2()">delete2</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s6">
+        <a class="a1" name="button1" onclick="javascript:blinkblink2()">blinkblink</a>
+
+      </div>
+      <div class="col s6">
+        <a class="a1" name="button2" onclick="javascript:changefromgreentored2()">greentored</a>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s4">
+
+      <a class="a1" name="button3" onclick="javascript:green2()">green</a>
+    </div>
+
+      <div class="col s4">
+
+      <a class="a1" name="button3" onclick="javascript:red2()">red</a>
+    </div>
+
+    <div class="col s4">
+
+      <a class="a1" name="button3" onclick="javascript:yellow2()">yellow</a>
+    </div>
+  </div>
+  <br>
+</div>
+
+</body>
+
+</html>
