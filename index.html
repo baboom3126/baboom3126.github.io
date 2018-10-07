@@ -24,7 +24,7 @@
   <script type="text/javascript">
     var rgbled;
     var temp = 0;
-    var mainTemp = 0;
+    var mainTemp = -1;
     var flag = 0;
     var temp2 = 0;
     var _red = '#ff0000';
@@ -81,6 +81,7 @@
       rgbled.setColor(_yellow);
       setTimeout(function() {
         rgbled.setColor(_red);
+        rgbled2.setColor(_green);
       }, 2000);
     }
 
@@ -88,6 +89,7 @@
       rgbled2.setColor(_yellow);
       setTimeout(function() {
         rgbled2.setColor(_red);
+        rgbled.setColor(_green);
       }, 2000);
     }
 
@@ -104,7 +106,10 @@
     function deleteAll(){
       clearInterval(myInterval);
       clearInterval(myInterval2);
-      clearInterval(mainInterval)
+      clearInterval(mainInterval);
+      green();
+      red2();
+
     }
 
     function setBuzzer(buzzer) {
@@ -147,12 +152,22 @@
 
     function green() {
       rgbled.setColor(_green);
-      rgbled2.setColor(_red);
     }
 
-    function red() {
+    function changetored() {
+      rgbled.setColor(_yellow);
+      setTimeout(function(){
+        rgbled.setColor(_red);
+        rgbled2.setColor(_green);
+      },2000);
+    }
+
+    function red(){
       rgbled.setColor(_red);
-      rgbled2.setColor(_green);
+    }
+
+    function red2(){
+      rgbled2.setColor(_red);
     }
 
     function yellow() {
@@ -161,12 +176,14 @@
 
     function green2() {
       rgbled2.setColor(_green);
-      rgbled.setColor(_red);
     }
 
-    function red2() {
-      rgbled.setColor(_green);
-      rgbled2.setColor(_red);
+    function changetored2() {
+        rgbled2.setColor(_yellow);
+        setTimeout(function(){
+          rgbled2.setColor(_red);
+          rgbled.setColor(_green);
+        },2000);
     }
 
     function yellow2() {
@@ -183,12 +200,12 @@
       mainInterval = setInterval(  function (){
           mainTemp++;
           if(mainTemp % 2 == 0){
-            green();
+            changetored();
           }
           else if( 1 == mainTemp%2){
-            red();
+            changetored2();
           }
-        },5000);
+        },7000);
     }
 
 
